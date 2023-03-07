@@ -36,17 +36,10 @@ kubectl patch configmap/asm-options -n istio-system --type merge -p '{"data":{"m
 
 Now you have different GKE cluster deploy in the regions you choose. ASM is enabled and configured for each cluster.
 
-## Deploy Application
-
-## Get GKE credential for each cluster
-
-
-
-
-## Create Namespace and enable side car injection
+## Configure ASM
 
 ```bash
-export PROJECT_ID="mineral-order-379915"
+export PROJECT_ID="your project ID"
 export LOCATION_1=europe-west2
 export LOCATION_2=us-central1
 export CTX1=gke_${PROJECT_ID}_${LOCATION_1}_${LOCATION_1}-gke
@@ -64,10 +57,10 @@ kubectl patch configmap/asm-options --context ${CTX2} -n istio-system --type mer
 ```
 
 
-Now deploy the application
+## Deploy the application
 
 ```bash
-export PROJECT_ID="mineral-order-379915"
+export PROJECT_ID="your project ID"
 export LOCATION_1=europe-west2
 export LOCATION_2=us-central1
 export CTX1=gke_${PROJECT_ID}_${LOCATION_1}_${LOCATION_1}-gke
@@ -80,17 +73,6 @@ kubectl apply -f  application/eu --context ${CTX2}
 kubectl apply -f  application/us --context ${CTX2}
 ```
 
-Different step : 
+ 
 
 
-* Deploy simple app with 
-  * REST API /health print env variable
-* Deploy multi cluster ingress
-* Try to route per jwt token value
-
-
-
-gcloud projects add-iam-policy-binding multi-cluster-ingress-379315 \
---member "serviceAccount:service-407110577993@gcp-sa-multiclusteringress.iam.gserviceaccount.com" \
---role "roles/container.admin" \
---project=multi-cluster-ingress-379315

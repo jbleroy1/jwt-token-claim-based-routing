@@ -8,5 +8,5 @@ spec:
     matchLabels:
       asm: ingressgateway
   jwtRules:
-  - issuer: "demo-claim@secure.gcp.io"
+  - issuer: "demo@secure.gcp.io"
     jwksUri: "https://raw.githubusercontent.com/jbleroy1/jwt-token-claim-based-routing/main/jwt/jwks.json"
