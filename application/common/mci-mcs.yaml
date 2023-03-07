@@ -1,0 +1,48 @@
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: ingress-backendconfig
+  namespace: demo
+spec:
+  healthCheck:
+    requestPath: /healthz/ready
+    port: 15021
+    type: HTTP
+---
+apiVersion: networking.gke.io/v1
+kind: MultiClusterService
+metadata:
+  name: mcs-service
+  namespace: demo
+  annotations:
+     beta.cloud.google.com/backend-config: '{"default":"ingress-backendconfig"}'
+     networking.gke.io/app-protocols: '{"http":"HTTP"}'
+spec:
+  template:
+    spec:
+      selector:
+        asm: ingressgateway
+      ports:
+        - name: http
+          protocol: TCP
+          port: 80
+          targetPort: 80
+---
+apiVersion: networking.gke.io/v1
+kind: MultiClusterIngress
+metadata:
+  name: gke-ingress
+  namespace: demo
+spec:
+  template:
+    spec:
+      backend:
+        serviceName: mcs-service
+        servicePort: 80
+      rules:
+      - host: "*"
+        http:
+          paths:
+          - backend:
+              serviceName: mcs-service
+              servicePort: 80

@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-app
+  namespace: demo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend-app
+  template:
+    metadata:
+      labels:
+        app: backend-app
+        version: v1
+    spec:
+      containers:
+      - name: whereami
+        image: us-docker.pkg.dev/google-samples/containers/gke/whereami:v1.2.19
+        env:
+        - name: METADATA
+          value: "foo"
+        - name: ECHO_HEADERS
+          value: "True"
+        ports:
+          - name: http
+            containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+            scheme: HTTP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-app
+  namespace: demo
+spec:
+  type: ClusterIP
+  selector:
+    app: backend-app
+    version: v1
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080
+---
+kind: ServiceExport
+apiVersion: net.gke.io/v1
+metadata:
+  name: backend-app
+  namespace: demo

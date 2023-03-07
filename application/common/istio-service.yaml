@@ -1,0 +1,30 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: backend-app-ingress
+  namespace: demo
+spec:
+  hosts:
+  - "*"
+  gateways:
+  # gateway in ns asm-ingress call asm-ingressgateway
+  - demo/asm-ingressgateway
+  http:
+  - match:
+    - headers:
+        "@request.auth.claims.region":
+          exact: eu
+    route:
+    - destination:
+        port:
+          number: 80
+        host:  backend-app-eu
+  - match:
+     - headers:
+        "@request.auth.claims.region":
+          exact: us
+    route:
+    - destination:
+        port:
+          number: 80
+        host: backend-app-us

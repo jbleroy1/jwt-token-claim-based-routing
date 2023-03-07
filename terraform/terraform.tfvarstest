@@ -1,0 +1,3 @@
+regions = ["europe-west2","us-central1"]
+project_id = "your-project-id"
+project_number="your-project-number"
