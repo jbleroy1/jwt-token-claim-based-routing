@@ -8,6 +8,9 @@ spec:
     requestPath: /healthz/ready
     port: 15021
     type: HTTP
+    unhealthyThreshold: 10
+    healthyThreshold: 1
+    checkIntervalSec: 10
 ---
 apiVersion: networking.gke.io/v1
 kind: MultiClusterService

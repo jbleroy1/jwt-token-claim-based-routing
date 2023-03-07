@@ -30,24 +30,3 @@ spec:
             path: /healthz
             port: 8080
             scheme: HTTP
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: backend-app
-  namespace: demo
-spec:
-  type: ClusterIP
-  selector:
-    app: backend-app
-    version: v1
-  ports:
-  - name: http
-    port: 80
-    targetPort: 8080
----
-kind: ServiceExport
-apiVersion: net.gke.io/v1
-metadata:
-  name: backend-app
-  namespace: demo

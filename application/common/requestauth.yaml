@@ -9,4 +9,4 @@ spec:
       asm: ingressgateway
   jwtRules:
   - issuer: "demo-claim@secure.gcp.io"
-    jwksUri: "https://raw.githubusercontent.com/istio/istio/release-1.17/security/tools/jwt/samples/jwks.json"
+    jwksUri: "https://raw.githubusercontent.com/jbleroy1/jwt-token-claim-based-routing/main/jwt/jwks.json"
