@@ -73,6 +73,20 @@ kubectl apply -f  application/eu --context ${CTX2}
 kubectl apply -f  application/us --context ${CTX2}
 ```
 
- 
+
+## Test
+
+
+```bash
+TOKEN_US=$(curl https://raw.githubusercontent.com/jbleroy1/jwt-token-claim-based-routing/main/jwt/us.jwt -s)
+TOKEN_EU=$(curl https://raw.githubusercontent.com/jbleroy1/jwt-token-claim-based-routing/main/jwt/eu.jwt -s)
+INGRESS_URL=$(kubectl get mci gke-ingress  -n demo -o jsonpath='{.status.VIP}') 
+
+curl --location --request GET  "http://$INGRESS_URL/" -H "Authorization: Bearer $TOKEN_US"
+curl --location --request GET  "http://$INGRESS_URL/" -H "Authorization: Bearer $TOKEN_EU"
+
+
+
+```
 
 
